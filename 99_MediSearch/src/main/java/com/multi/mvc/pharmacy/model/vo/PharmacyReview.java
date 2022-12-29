@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PharmacyList {
-	
-	private int pharmacyNo;
-	private String hpid;
-	private String dutyName;
-	private String dutyAddr;
+public class PharmacyReview {
+
+	private String content;
+	private int reviewNo;
+	private int memberNo;
+	private Date createDate;	// create_date
 	private double star;
+	private int pharmacyNo;
+	
 	private int reviews;	// 리뷰 개수
 	
-
-
 }

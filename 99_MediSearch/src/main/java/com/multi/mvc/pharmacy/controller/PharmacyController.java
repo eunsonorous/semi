@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.multi.mvc.common.util.PageInfo;
 import com.multi.mvc.pharmacy.model.service.PharmacyService;
+import com.multi.mvc.pharmacy.model.vo.PharmacyInfo;
 import com.multi.mvc.pharmacy.model.vo.PharmacyList;
 
 import lombok.extern.slf4j.Slf4j;
@@ -75,27 +77,45 @@ public class PharmacyController {
 	}
 	
 	
-	@GetMapping("/search/pharmacyInfo")
-	public String pharmacyInfo(Model model, @RequestParam Map<String, String> param){
-		return "/search/pharmacyInfo";
-		
-	}
+//	@GetMapping("/search/pharmacyInfo")
+//	public String pharmacyInfo(Model model, @RequestParam Map<String, String> param){
+//		return "/search/pharmacyInfo";
+//		
+//	}
 	
-	@GetMapping("/search/pharamacyInfo")
+	@RequestMapping("/search/pharmacyInfo")
 	public String view(Model model, @RequestParam("pharmacyNo") int pharmacyNo) {
-		PharmacyList pharmacyList = service.findByNo(pharmacyNo);
-		if(pharmacyList == null) {
+		PharmacyInfo pharmacyInfo = service.findByNo(pharmacyNo);
+		if(pharmacyInfo == null) {
 			return "redirect:error";
 		}
 		
-		model.addAttribute("pharmacyList", pharmacyList);
+		model.addAttribute("PharmacyInfo", pharmacyInfo);
+		model.addAttribute("replyList", pharmacyInfo.getReplies());
 		return "/search/pharmacyInfo";
 	}
 	
 	
-	@GetMapping("/search/error")
+	@GetMapping("/error")
 	public String error() {
 		return "/common/error";
 	}
+	
+//	@GetMapping("/search/pharmacyInfo")
+//	public String pharmacyDetail(Model model, @RequestParam("pharmacyNo") int pharmacyNo) {
+//		PharmacyInfo pharmacyInfo = service.findByNo(pharmacyNo);
+//		if(pharmacyInfo == null) {
+//			return "redirect:error";
+//		}
+//		
+//		model.addAttribute("pharmacyList", pharmacyInfo);
+//		return "/search/pharmacyInfo";
+//	}
+//	
+//	
+//	@GetMapping("/search/error")
+//	public String error() {
+//		return "/common/error";
+//	}
 	
 }
