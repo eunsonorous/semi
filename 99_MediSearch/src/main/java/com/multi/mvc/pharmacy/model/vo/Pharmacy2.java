@@ -1,5 +1,8 @@
 package com.multi.mvc.pharmacy.model.vo;
 
+import java.util.Date;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,17 +10,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PharmacyList {
+public class Pharmacy2 {
+
+//	private String dutyMapimg;
+//	private String dutyEtc; 
+//	private String dutyDiv; // 나중에 db 컬럼부터 추가하고 진행할 것
+//	private String pharmacyHpid; 
 	
+	// pharmacy
 	private int pharmacyNo;
 	private String hpid;
 	private String dutyName;
 	private String dutyAddr;
-	private double star;
-	private int reviews;
-
 	private String dutyInf; 
 	private String dutyTel1; 
+	
 	private String dutyTime1c;
 	private String dutyTime2c;
 	private String dutyTime3c;
@@ -42,11 +49,16 @@ public class PharmacyList {
 	private double wgs84Lat; 
 	private String pharmacyImg;
 	
-//	private String dutyMapimg;
-//	private String dutyEtc; 
+	private List<PharmacyReview> replies; // 추가
 	
-//	private String dutyDiv; // 나중에 db 컬럼부터 추가하고 진행할 것
 	
-//	private String pharmacyHpid; 
-
+	// review_pharmacy
+	private String content;
+	private int reviewNo;
+	private int memberNo;
+	private Date createDate;	// create_date
+	private double star;
+	
+	private int reviews;	// 리뷰 개수
+	
 }

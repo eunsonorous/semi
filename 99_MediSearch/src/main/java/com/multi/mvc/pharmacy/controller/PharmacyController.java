@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.multi.mvc.common.util.PageInfo;
 import com.multi.mvc.pharmacy.model.service.PharmacyService;
-import com.multi.mvc.pharmacy.model.vo.PharmacyInfo;
 import com.multi.mvc.pharmacy.model.vo.PharmacyList;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +23,8 @@ public class PharmacyController {
 	
 	@Autowired
 	private PharmacyService service;
+	
+
 	
 	@GetMapping("/search/pharmacy")
 	public String list(Model model, @RequestParam Map<String, String> param) {
@@ -77,45 +78,17 @@ public class PharmacyController {
 	}
 	
 	
-//	@GetMapping("/search/pharmacyInfo")
-//	public String pharmacyInfo(Model model, @RequestParam Map<String, String> param){
-//		return "/search/pharmacyInfo";
-//		
-//	}
 	
-	@RequestMapping("/search/pharmacyInfo")
-	public String view(Model model, @RequestParam("pharmacyNo") int pharmacyNo) {
-		PharmacyInfo pharmacyInfo = service.findByNo(pharmacyNo);
-		if(pharmacyInfo == null) {
-			return "redirect:error";
-		}
+	@GetMapping("/search/pharmacyInfo")
+	public String pharmacyInfo(Model model, @RequestParam("pharmacyNo") int no){
+		PharmacyList pharmacyList = service.findByNo(no);
 		
-		model.addAttribute("PharmacyInfo", pharmacyInfo);
-		model.addAttribute("replyList", pharmacyInfo.getReplies());
+		log.info("list 요청 no : " + no);
+		model.addAttribute("pharmacyList", pharmacyList);
 		return "/search/pharmacyInfo";
+		
 	}
 	
-	
-	@GetMapping("/error")
-	public String error() {
-		return "/common/error";
-	}
-	
-//	@GetMapping("/search/pharmacyInfo")
-//	public String pharmacyDetail(Model model, @RequestParam("pharmacyNo") int pharmacyNo) {
-//		PharmacyInfo pharmacyInfo = service.findByNo(pharmacyNo);
-//		if(pharmacyInfo == null) {
-//			return "redirect:error";
-//		}
-//		
-//		model.addAttribute("pharmacyList", pharmacyInfo);
-//		return "/search/pharmacyInfo";
-//	}
-//	
-//	
-//	@GetMapping("/search/error")
-//	public String error() {
-//		return "/common/error";
-//	}
+
 	
 }

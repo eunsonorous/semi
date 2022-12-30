@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.multi.mvc.common.util.PageInfo;
 import com.multi.mvc.pharmacy.model.mapper.PharmacyMapper;
-import com.multi.mvc.pharmacy.model.vo.PharmacyInfo;
 import com.multi.mvc.pharmacy.model.vo.PharmacyList;
 
 @Service
@@ -27,27 +26,19 @@ public class PharmacyService {
 		
 		return mapper.selectPharmacyList(searchMap);
 	}
-
-//	public PharmacyInfo findByNo(int pharmacyNo) {
-//		PharmacyInfo pharmacyInfo = mapper.selectPharmacyByNo(pharmacyNo); 
-//		return pharmacyInfo; 
-//	}
-
-	public int getPharmacyInfoCount(Map<String, String> param) {
-		return mapper.selectPharmcyInfoCount(param);
-	}
 	
-	// Mysql 페이지 기반 코드
-	public List<PharmacyInfo> getPharmacyInfoList(PageInfo pageInfo, Map<String, String> param){
-		param.put("limit", "" + pageInfo.getListLimit());
-		param.put("offset", "" + (pageInfo.getStartList() - 1));
-		return mapper.selectPharmacyInfoList(param);
-	}
 	
+	// 상세페이지
 	@Transactional(rollbackFor = Exception.class)
-	public PharmacyInfo findByNo(int pharmacyNo) {
-		PharmacyInfo pharmacyInfo = mapper.selectPharmacyInfoByNo(pharmacyNo); 
-		return pharmacyInfo; 
+	public PharmacyList findByNo(int pharmacyNo) {
+		PharmacyList pharmacyList = mapper.selectPharmacyListByNo(pharmacyNo); 
+		return pharmacyList; 
 	}
 	
+//	public List<PharmacyList> getPharmacyInfoList(){
+//		
+//	}
+	
+	
+//	selectPharmacyListByNo
 }

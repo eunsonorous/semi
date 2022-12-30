@@ -10,6 +10,7 @@
 
 <link href="${path}/resources/css/table.css" rel="stylesheet">
 
+
     <!-- Page header-->
     <section class="container pt-5 mt-5">
       <!-- Breadcrumb-->
@@ -18,13 +19,15 @@
           <li class="breadcrumb-item"><a href="${path}">홈</a></li>
           <li class="breadcrumb-item"><a href="${path}/search/pharmacy">약국 찾기</a></li>
           <!--========================================================== 약국 이름이 들어가는 곳 =========================================================-->
-          <li class="breadcrumb-item active" aria-current="page"><c:out value="${pharmacy.dutyName}"/></li>
+          <li class="breadcrumb-item active" aria-current="page"><c:out value="${pharmacyList.dutyName}"/></li>
+
+          
         </ol>
       </nav>
 
       <!--========================================================== 약국 정보가 들어가는 곳 =========================================================-->
       <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-sm-2">
-        <h1 class="h2 me-3 mb-sm-0"><c:out value="${pharmacy.dutyName}"/></h1>
+        <h1 class="h2 me-3 mb-sm-0"><c:out value="${pharmacyList.dutyName}"/></h1>
         <div class="text-nowrap"></div>
       </div>
 
@@ -32,7 +35,9 @@
       <!-- Nav pills-->
       <ul class="nav nav-pills border-bottom pb-3 mb-4">
         <li class="nav-item"><a class="nav-link d-flex align-items-center active" href="#">
-          <i class="fi-info-circle me-2"></i>상세정보</a></li>
+          <i class="fi-info-circle me-2"></i> 상세정보
+        
+          </a></li>
       </ul>
     </section>
     
@@ -42,7 +47,9 @@
       <div class="row">
 
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de43de051b10f18cf420b0e4cf8140a1"></script>		
+		
 
+		
         <!-- Left column-->
         <div class="col-md-7 mb-md-0 mb-4 pb-md-0 pb-2" >
           <!-- Carousel with slides count-->
@@ -60,8 +67,8 @@
               <div class="tns-carousel-inner"
                 data-carousel-options="{&quot;navAsThumbnails&quot;: true, &quot;navContainer&quot;: &quot;#thumbnails&quot;, &quot;gutter&quot;: 12, &quot;responsive&quot;: {&quot;0&quot;:{&quot;controls&quot;: false},&quot;500&quot;:{&quot;controls&quot;: true}}}">
                 <div><img class="rounded-3" src="${path}/resources/img/pha/iloveimg-resized(1119x630)/2000_612.jpg" alt="Image"></div>
-                
-<!-- ============================== 카카오 api ================================ -->
+                <div><img class="rounded-3" src="${path}/resources/img/pha/innerPha/pha1.jpg" alt="Image"></div>
+<!-- ============================== 카카오 지도 api ================================ -->
 				
 				<div id="map" onclick="relayout() panTo()"  ><img class="rounded-3" src="${path}/resources/img/pha/white.jpg" alt="Image"></div>
 <!-- ============================== 카카오 api ================================ -->
@@ -86,14 +93,14 @@
 				<script>
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				    mapOption = { 
-				        center: new kakao.maps.LatLng(${pharmacy.wgs84Lon}, ${pharmacy.wgs84Lat}), // 지도의 중심좌표
+				        center: new kakao.maps.LatLng(<c:out value="${pharmacyList.wgs84Lat}"/>, <c:out value="${pharmacyList.wgs84Lon}"/>), // 지도의 중심좌표
 				        level: 3 // 지도의 확대 레벨
 				    };
 				
 				var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 				
 				// 마커가 표시될 위치입니다 
-				var markerPosition  = new kakao.maps.LatLng(${pharmacy.wgs84Lon}, ${pharmacy.wgs84Lat}); 
+				var markerPosition  = new kakao.maps.LatLng(<c:out value="${pharmacyList.wgs84Lat}"/>, <c:out value="${pharmacyList.wgs84Lon}"/>); 
 				
 				// 마커를 생성합니다
 				var marker = new kakao.maps.Marker({
@@ -115,7 +122,7 @@
 				
 				function panTo() {
 				    // 이동할 위도 경도 위치를 생성합니다 
-				    var moveLatLon = new kakao.maps.LatLng(${pharmacy.wgs84Lon}, ${pharmacy.wgs84Lat});
+				    var moveLatLon = new kakao.maps.LatLng(<c:out value="${pharmacyList.wgs84Lat}"/>, <c:out value="${pharmacyList.wgs84Lon}"/>);
 				    
 				    // 지도 중심을 부드럽게 이동시킵니다
 				    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
@@ -128,6 +135,7 @@
             <!-- Thumbnails nav-->
             <ul class="tns-thumbnails mb-4" id="thumbnails" >
               <li class="tns-thumbnail"><img src="${path}/resources/img/pha/iloveimg-resized(1119x630)/2000_612.jpg" alt="Thumbnail" ></li>
+              <li class="tns-thumbnail"><img src="${path}/resources/img/pha/innerPha/pha1.jpg" alt="Thumbnail" ></li>
               <li class="tns-thumbnail"><img src="${path}/resources/img/hos/resize/900.png" onclick="relayout() panTo()" alt="Thumbnail"></li>
               <!--
               <li class="tns-thumbnail"><img src="img/real-estate/single/th11.jpg" alt="Thumbnail"></li>
@@ -148,104 +156,30 @@
           <!--=========================================== 약국 상세설명 ======================================-->
           <h2 class="h4">약국 설명</h2>
           <ul class="list-unstyled">
-            <li><i class="fi-star-filled mt-n1 me-1 text-warning align-middle"></i><b>${pharmacy.star}</b><span
-                class="text-muted">(${pharmacyReviewCount} reviews)</span></li>
+            <li><i class="fi-star-filled mt-n1 me-1 text-warning align-middle"></i><b><c:out value="${pharmacyList.star}"/> </b><span
+                class="text-muted">(<c:out value="${pharmacyList.reviews}"/> reviews)</span></li>
             <!-- <li><i class="fi-wallet mt-n1 me-1 align-middle opacity-70"></i>$$</li> -->
             <!-- ========================= 약국 위치 정보 들어가는 자리 ========================= -->
-            
-            <li><i class="fi-map-pin mt-n1 me-1 align-middle opacity-70"></i><c:out value="${pharmacy.dutyAddr}"/></li>
+            <li><i class="fi-map-pin mt-n1 me-1 align-middle opacity-70"></i><c:out value="${pharmacyList.dutyAddr}"/></li>
           </ul>
           <div class="mb-4 pb-md-3">
             <p class="mb-1">
-              소망 약국 마곡점은 대한민국의료계를 이끌어 온 전통과 명예로 세계 최고 수준의 교육, 연구, 진료를 통해 21세기 선진 의료를 선도하기 위해 노력해 오고 있습니다. 서울대학교병원의 가장 큰 규모의 임상진료과로 100여명의 교수, 150여명의 임상강사 및 전공의 의료진이 소속되어 있습니다. 16개의 병동, 응급실, 중환자실에서 1일 500명 이상의 입원 환자를 진료하고 매일 3,000여명의 외래 환자를 진료하고 있습니다. 아울러 특수질환에 대한 다양한 교육프로그램과 안내책자들을 개발 활용하여 환자의 이해를 증진시키고 있으며 다양한 특수클리닉의 개설, 운영으로 특수질환에 대한 환자들의 진료 욕구를 충족시키고 환자의 아픔과 고통을 함께 나눈다는 생각을 가지고 최선을 다해 진료에 임하고 있습니다. 
-
+              <c:out value="${pharmacyList.dutyAddr}"/> 에 위치하는 <c:out value="${pharmacyList.dutyName}"/>은 한국임상양병약학회 회원들을 중심으로 설립했습니다. 
+              <c:out value="${pharmacyList.dutyName}"/>은 의약품 및 건강기능식품의 유통과 전국적인 체인망을 갖춰 비약적인 성장을 거듭해 왔습니다. <c:out value="${pharmacyList.dutyName}"/>은 
+              양병학을 기초로 한 임상역학을 중심에 두고, 약사로서의 전문성 확보와 체인회원의 경제적인 이익을 극대화 하기 위해 노력해 왔습니다. 
+              전문적이고 차별화된 약국품질경영시스템을 통하여 약국에겐 최상의 경쟁력과 만족을, 고객에겐 한 차원 높은 약국 서비스를 제공합니다. 또한 
+              약국에서 필요로 하는 요소를 파악하여, 변화하는 시대에 적절히 대응할 수 있는 약국 인테리어 및 청구소프트웨어를 비롯한 각종 약국 경영에 필수적인 물품 및 제반 사항을 빠짐없이 메뉴얼화 하여 약국 경영에 빈틈이 없도록 준비해 나가고 있습니다.
             </p>
             <div class="collapse" id="seeMoreAbout">
               <p class="mb-1">
-                또한 기초 및 임상연구를 통한 새로운 의학기술의 개발, 혁신적인 의학교육을 통한 우수한 의료진의 양성을 바탕으로 수준 높은 진료를 지향해 나가고 있습니다. 구조적으로는 호흡기내과, 순환기내과, 소화기내과, 혈액종양내과, 내분비내과, 알레르기내과, 신장내과, 감염내과, 류마티스내과로 나뉘어 9개의 분과로 구성되어 있고 입원전담전문의 제도를 운영하며 서울대학교 의과대학 및 서울대학교병원의 교육, 연구, 진료에서 중추적 역할을 수행하고 있습니다. 
+				<c:out value="${pharmacyList.dutyInf}"/>
               </p>
             </div>
             <a class="collapse-label collapsed" href="#seeMoreAbout" data-bs-toggle="collapse"
               data-bs-label-collapsed="Show more" data-bs-label-expanded="Show less" role="button" aria-expanded="false"
               aria-controls="seeMoreAbout"></a>
           </div>
-          
-          
-          
 
-          <!-- =============================================== 수술/시술 들어갈 곳 ================================================ -->
-          <!-- Amenities-->
-          <!--
-          <div class="mb-4 pb-md-3">
-            <h2 class="h4">수술/시술 가능 여부</h2>
-            <ul class="list-unstyled row row-cols-lg-3 row-cols-md-2 row-cols-1 gy-1 mb-1 text-nowrap">
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>MRI</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>CT</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>인공관절</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>파키슨병</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>뇌혈관센터</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>뇌혈관중재적시술</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>종합검진</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>위내시경</li>
-              <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>위암</li>
-            </ul>
-          -->
-            <!-- 더보기 란 -->
-            <!--
-            <div class="collapse" id="seeMoreAmenities">
-              <ul class="list-unstyled row row-cols-lg-3 row-cols-md-2 row-cols-1 gy-1 mb-1 text-nowrap">
-                <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>다한증</li>
-                <li class="col"><i class="fi-spa mt-n1 me-2 fs-lg align-middle"></i>심장혈관촬영및관상동맥중재술</li>
-              </ul>
-            </div><a class="collapse-label collapsed" href="#seeMoreAmenities" data-bs-toggle="collapse"
-              data-bs-label-collapsed="Show more" data-bs-label-expanded="Show less" role="button" aria-expanded="false"
-              aria-controls="seeMoreAmenities"></a>
-          </div>
-          -->
-
-
-          <!-- Room types-->
-          <!--
-          <div class="mb-4 pb-md-3">
-            <h2 class="h4">Room types</h2>
-            <ul class="list-unstyled row row-cols-lg-3 row-cols-md-2 row-cols-1 gy-1 mb-1 text-nowrap">
-              <li class="col"><i class="fi-no-smoke mt-n1 me-2 fs-lg align-middle"></i>Non-smoking rooms</li>
-              <li class="col"><i class="fi-single-bed mt-n1 me-2 fs-lg align-middle"></i>Single rooms</li>
-              <li class="col"><i class="fi-double-bed mt-n1 me-2 fs-lg align-middle"></i>Family suites</li>
-            </ul>
-          </div>
-          -->
-
-          <!-- Awards-->
-          <!--
-          <h2 class="h4">Awards</h2>
-          <ul class="list-unstyled">
-            <li class="d-flex align-items-center mb-2"><img class="flex-shrink-0 me-2"
-                src="img/city-guide/single/awards/01.jpg" width="40" alt="Award logo">
-              <div>2020 Traveler’s Choice</div>
-            </li>
-            <li class="d-flex align-items-center mb-2"><img class="flex-shrink-0 me-2"
-                src="img/city-guide/single/awards/02.jpg" width="40" alt="Award logo">
-              <div>TUI Top Quality 2020</div>
-            </li>
-            <li class="d-flex align-items-center mb-2"><img class="flex-shrink-0 me-2"
-                src="img/city-guide/single/awards/03.jpg" width="40" alt="Award logo">
-              <div>TUI Holly 2019</div>
-            </li>
-          </ul>
-          <hr class="my-4">
-          -->
-
-
-          <!-- Payment-->
-          <!-- <div class="d-lg-flex align-items-center pb-2 pb-lg-0">
-            <h4 class="fs-lg mb-lg-0">약국에서 이용 가능한 카드:</h4>
-            <div class="ps-lg-3"><img class="me-2 border rounded-1 shadow-sm" src="img/city-guide/single/payment/visa.svg" width="54" alt="Visa">
-              <img class="me-2 border rounded-1 shadow-sm" src="img/city-guide/single/payment/mastercard.svg" width="54"
-                alt="Mastercard"><img class="me-2 border rounded-1 shadow-sm"
-                src="img/city-guide/single/payment/maestro.svg" width="54" alt="Maestro">
-                <img class="border rounded-1 shadow-sm" src="img/city-guide/single/payment/american-express.svg" width="54" alt="American Express"></div>
-          </div> -->
 
 <!--=============================== 지도 ===========================================================================-->
           <!-- Location (Map)-->
@@ -257,14 +191,14 @@
 				<script>
 				var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
 				    mapOption2 = { 
-				        center: new kakao.maps.LatLng(${pharmacy.wgs84Lon}, ${pharmacy.wgs84Lat}), // 지도의 중심좌표
+				        center: new kakao.maps.LatLng(<c:out value="${pharmacyList.wgs84Lat}"/>, <c:out value="${pharmacyList.wgs84Lon}"/>), // 지도의 중심좌표
 				        level: 3 // 지도의 확대 레벨
 				    };
 				
 				var map2 = new kakao.maps.Map(mapContainer2, mapOption2); // 지도를 생성합니다
 				
 				// 마커가 표시될 위치입니다 
-				var markerPosition2  = new kakao.maps.LatLng(${pharmacy.wgs84Lon}, ${pharmacy.wgs84Lat}); 
+				var markerPosition2  = new kakao.maps.LatLng(<c:out value="${pharmacyList.wgs84Lat}"/>, <c:out value="${pharmacyList.wgs84Lon}"/>); 
 				
 				// 마커를 생성합니다
 				var marker2 = new kakao.maps.Marker({
@@ -274,8 +208,8 @@
 				// 마커가 지도 위에 표시되도록 설정합니다
 				marker2.setMap(map2);
 				
-				var iwContent = '<div style="padding:5px;">${pharmacy.dutyName} <br><a style="text-decoration: none;" href="https://map.kakao.com/link/map/Hello World!, ${pharmacy.wgs84Lon}, ${pharmacy.wgs84Lat}" target="_blank" >큰지도보기</a> <a style="text-decoration: none;" href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				iwPosition = new kakao.maps.LatLng(${pharmacy.wgs84Lon}, ${pharmacy.wgs84Lat}); //인포윈도우 표시 위치입니다
+				var iwContent = '<div style="padding:5px; font-size:10px">${pharmacyList.dutyName} <br><a style="text-decoration: none;" href="https://map.kakao.com/link/map/<c:out value="${pharmacyList.dutyName}"/>,<c:out value="${pharmacyList.wgs84Lat}"/>,<c:out value="${pharmacyList.wgs84Lon}"/>" target="_blank" >큰지도보기</a> <a style="text-decoration: none;" href="https://map.kakao.com/link/to/<c:out value="${pharmacyList.dutyName}"/>,<c:out value="${pharmacyList.wgs84Lat}"/>, <c:out value="${pharmacyList.wgs84Lon}"/>" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+				iwPosition = new kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
 				
 				//인포윈도우를 생성합니다
 				var infowindow = new kakao.maps.InfoWindow({
@@ -288,7 +222,7 @@
 				
 				</script>
           </div>
-
+<!--=============================== 지도 ===========================================================================-->
         </div>
 
 
@@ -305,12 +239,12 @@
                 <!-- 병원이면 병원로고, 약국이면 응급로고, 등을 넣는 곳 -->
                 <img src="${path}/resources/img/pha/phaLogo.png" width="60" alt="Thumbnail">
                 <div class="ps-2 ms-1">
-                  <h3 class="h5 mb-2"> 마곡 소망약국</h3>
+                  <h3 class="h5 mb-2"> ${pharmacyList.dutyName}</h3>
                   <ul class="list-unstyled d-flex flex-wrap fs-sm">
                     <li class="me-2 mb-1 pe-1">
                       <i class="fi-star-filled mt-n1 me-1 text-warning align-middle opacity-70"></i>
                       <!--=========== 리뷰 별점 넣는 곳 ========-->
-                      <b>4.9 </b>(48)</li>
+                      <b><c:out value="${pharmacyList.star}"/> </b>(<c:out value="${pharmacyList.reviews}"/>)</li>
                     <!-- <li class="me-2 mb-1 pe-1">
                       <i class="fi-wallet mt-n1 me-1 align-middle opacity-70"></i>$$</li> -->
                       <!--===================================== 약국 분류 넣는 곳 =============================================-->
@@ -325,60 +259,13 @@
                 <h4 class="h5 mb-2">약국 정보:</h4>
                 <ul class="nav flex-column">
                   <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="#">
-                    <i class="fi-map-pin mt-1 me-2 align-middle opacity-70"></i>서울특별시 강서구 마곡동 760번지 마곡나루역보타닉푸르지오시티 2층 233호</a>
+                    <i class="fi-map-pin mt-1 me-2 align-middle opacity-70"></i><c:out value="${pharmacyList.dutyAddr} "/></a>
                   </li>
                   <!-- 전화번호 -->
                   <li class="nav-item mb-2">
-                    <a class="nav-link d-inline-block p-0 fw-normal d-inline-flex align-items-start" href="tel:3025550107">
-                      <i class="fi-phone mt-1 me-2 align-middle opacity-70"></i>(302) 555-0107</a>, 
-                      <a class="nav-link d-inline-block p-0 fw-normal" href="tel:3025550208">(302) 555-0208</a></li>
-
-                  <!-- 운영 시간 -->
-                  <!--
-                  <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="#">
-                    <i class="fi-edit mt-1 me-2 align-middle opacity-60"></i>
-                  
-                    <div class="text-nowrap">
-                  -->  
-                        <!-- <a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-facebook"></i></a>
-                        <a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-instagram"></i></a>
-                        <a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle" href="#"><i class="fi-twitter"></i></a> -->
-                        <!--
-                        <ul class="nav flex-column">
-                          <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                            <i class="mt-1 me-2 align-middle opacity-70"></i>월요일: 08:00 ~ 18:00</a>
-                          </li>
-                          <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                            <i class="mt-1 me-2 align-middle opacity-70"></i>화요일: 08:00 ~ 18:00</a>
-                          </li>
-                          <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                            <i class="mt-1 me-2 align-middle opacity-70"></i>수요일: 08:00 ~ 18:00</a>
-                          </li>
-                          <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                            <i class="mt-1 me-2 align-middle opacity-70"></i>목요일: 08:00 ~ 18:00</a>
-                          </li>
-                          <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                            <i class="mt-1 me-2 align-middle opacity-70"></i>금요일: 08:00 ~ 18:00</a>
-                          </li>
-                          <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                            <i class="mt-1 me-2 align-middle opacity-70"></i>토요일: 08:00 ~ 18:00</a>
-                          </li>
-                          <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                            <i class="mt-1 me-2 align-middle opacity-70"></i>일요일: 08:00 ~ 18:00</a>
-                          </li>
-                        </ul>
-                        -->
-                   <!--     
-                      </div>
-
-                  </a></li>
-                  -->
-                  
-                  <!-- 응급실 운영 여부 -->
-                  <!--
-                  <li class="nav-item"><a class="nav-link p-0 fw-normal d-flex align-items-start" href="mailto:bb-hotel@example.com"><i
-                        class="fi-help mt-1 me-2 align-middle opacity-70"></i>응급실 운영 여부 : X</a></li>
-                  -->
+                    <a class="nav-link d-inline-block p-0 fw-normal d-inline-flex align-items-start" href="tel:<c:out value="${pharmacyList.dutyTel1}"/>">
+                      <i class="fi-phone mt-1 me-2 align-middle opacity-70"></i><c:out value="${pharmacyList.dutyTel1}"/></a>
+                    </li>
                 </ul>
               </div>
 
@@ -386,7 +273,7 @@
               <div class="mb-3 pb-3 border-bottom">
                 <table class="styled-table" style="margin: 0% auto;">
                   <tbody>
-                    <td >
+                    <td>
                       <h4 class="h5 mb-2" >즐겨찾기 </h4>
                     </td>
                     <td style="text-align: right;">
@@ -395,46 +282,6 @@
                   </tbody>
                 </table>
               </div>
-
-
-              
-
-              <!-- 운영 시간 -->
-              <!-- Place following-->
-              
-              <!-- <div class="d-flex align-items-center">
-                <h4 class="h5 mb-0 me-3">운영 시간</h4>
-                <div class="text-nowrap"> -->
-              
-                  <!-- <a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-facebook"></i></a>
-                  <a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-instagram"></i></a>
-                  <a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle" href="#"><i class="fi-twitter"></i></a> -->
-                  
-                  <!-- <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                      <i class="mt-1 me-2 align-middle opacity-70"></i>월요일: 08:00 ~ 18:00</a>
-                    </li>
-                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                      <i class="mt-1 me-2 align-middle opacity-70"></i>화요일: 08:00 ~ 18:00</a>
-                    </li>
-                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                      <i class="mt-1 me-2 align-middle opacity-70"></i>수요일: 08:00 ~ 18:00</a>
-                    </li>
-                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                      <i class="mt-1 me-2 align-middle opacity-70"></i>목요일: 08:00 ~ 18:00</a>
-                    </li>
-                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                      <i class="mt-1 me-2 align-middle opacity-70"></i>금요일: 08:00 ~ 18:00</a>
-                    </li>
-                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                      <i class="mt-1 me-2 align-middle opacity-70"></i>토요일: 08:00 ~ 18:00</a>
-                    </li>
-                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal d-flex align-items-start">
-                      <i class="mt-1 me-2 align-middle opacity-70"></i>일요일: 08:00 ~ 18:00</a>
-                    </li>
-                  </ul>
-                </div>
-              </div> -->
 
               <div class="mb-3 pb-0">
                 <h4 class="h5 mb-2">운영 시간:</h4>
@@ -451,62 +298,44 @@
                   <tbody>
                       <tr class="active-row">
                           <td>월요일</td>
-                          <td>09:00 ~ 18:00</td>
+                          <c:set var="test" value= "${pharmacyList.dutyTime1s}" /><c:set var="test2" value= "${pharmacyList.dutyTime1c}" />
+                          <td><c:out value="${fn:substring(test,0,2)}:${fn:substring(test,2,4)}" /> ~ <c:out value="${fn:substring(test2,0,2)}:${fn:substring(test2,2,4)}" /></td>
                       </tr>
                       <tr class="active-row">
                           <td>화요일</td>
-                          <td>09:00 ~ 18:00</td>
+                          <c:set var="test" value= "${pharmacyList.dutyTime2s}" /><c:set var="test2" value= "${pharmacyList.dutyTime2c}" />
+                          <td><c:out value="${fn:substring(test,0,2)}:${fn:substring(test,2,4)}" /> ~ <c:out value="${fn:substring(test2,0,2)}:${fn:substring(test2,2,4)}" /></td>
                       </tr>
                       <tr class="active-row">
                           <td>수요일</td>
-                          <td>09:00 ~ 18:00</td>
+                           <c:set var="test" value= "${pharmacyList.dutyTime3s}" /><c:set var="test2" value= "${pharmacyList.dutyTime3c}" />
+                          <td><c:out value="${fn:substring(test,0,2)}:${fn:substring(test,2,4)}" /> ~ <c:out value="${fn:substring(test2,0,2)}:${fn:substring(test2,2,4)}" /></td>
                       </tr>
                       <tr class="active-row">
                           <td>목요일</td>
-                          <td>09:00 ~ 18:00</td>
+                           <c:set var="test" value= "${pharmacyList.dutyTime4s}" /><c:set var="test2" value= "${pharmacyList.dutyTime4c}" />
+                          <td><c:out value="${fn:substring(test,0,2)}:${fn:substring(test,2,4)}" /> ~ <c:out value="${fn:substring(test2,0,2)}:${fn:substring(test2,2,4)}" /></td>
                       </tr>
                       <tr class="active-row">
                           <td>금요일</td>
-                          <td>09:00 ~ 18:00</td>
+                           <c:set var="test" value= "${pharmacyList.dutyTime5s}" /><c:set var="test2" value= "${pharmacyList.dutyTime5c}" />
+                          <td><c:out value="${fn:substring(test,0,2)}:${fn:substring(test,2,4)}" /> ~ <c:out value="${fn:substring(test2,0,2)}:${fn:substring(test2,2,4)}" /></td>
                       </tr>
                       <tr class="active-row">
                           <td>토요일</td>
-                          <td>09:00 ~ 18:00</td>
+                           <c:set var="test" value= "${pharmacyList.dutyTime6s}" /><c:set var="test2" value= "${pharmacyList.dutyTime7c}" />
+                          <td><c:out value="${fn:substring(test,0,2)}:${fn:substring(test,2,4)}" /> ~ <c:out value="${fn:substring(test2,0,2)}:${fn:substring(test2,2,4)}" /></td>
                       </tr>
                       <tr class="active-row">
                           <td>일요일</td>
-                          <td>09:00 ~ 18:00</td>
+                           <c:set var="test" value= "${pharmacyList.dutyTime8s}" /><c:set var="test2" value= "${pharmacyList.dutyTime8c}" />
+                          <td><c:out value="${fn:substring(test,0,2)}:${fn:substring(test,2,4)}" /> ~ <c:out value="${fn:substring(test2,0,2)}:${fn:substring(test2,2,4)}" /></td>
                       </tr>
-                      
                   </tbody>
               </table>
               </div>
             </div>
           </div>
-
-          <!--========================================================================= 지도 ===========================================================================-->
-          <!-- Location (Map)-->
-          <!--
-          <div class="position-relative">
-          -->
-            <!-- <img class="rounded-3" src="img/city-guide/single/map-sm.jpg" alt="Map"> -->
-            <!--
-            <iframe class="rounded-3" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50571.503708807424!2d126.87841757497236!3d37.6087723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9821b2378f7d%3A0x4bc463fe9a7dbd04!2z7ISc7Jq467OR7JuQ!5e0!3m2!1sko!2skr!4v1671269215626!5m2!1sko!2skr" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-            <div class="d-flex w-100 h-100 flex-column align-items-center justify-content-center position-absolute top-0 start-0">
-            -->
-              <!-- <img class="d-block mx-auto mb-4 rounded-circle bg-white shadow" src="img/city-guide/brands/hotel.svg" width="40" alt="Place logo"> -->
-              <!-- 길찾기 버튼 > 누를 시 구글 맵과 연동되서 길찾기 버튼 활성화 -->
-             <!-- 
-              <a class="btn btn-primary rounded-pill stretched-link"
-                href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50571.503708807424!2d126.87841757497236!3d37.6087723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9821b2378f7d%3A0x4bc463fe9a7dbd04!2z7ISc7Jq467OR7JuQ!5e0!3m2!1sko!2skr!4v1671269215626!5m2!1sko!2skr"
-                data-iframe="true" data-bs-toggle="lightbox">
-                <i class="fi-route me-2"></i>길 찾기
-              </a>
-            </div>
-            
-          </div>
-          -->
         </aside>
       </div>
     </section>
@@ -519,13 +348,13 @@
 
           <!-- Reviews-->
           <div class="mb-4 pb-4 border-bottom">
-            <h3 class="h4 pb-3"><i class="fi-star-filled mt-n1 me-2 lead align-middle text-warning"></i>4,9 (32 reviews)
+            <h3 class="h4 pb-3"><i class="fi-star-filled mt-n1 me-2 lead align-middle text-warning"></i><c:out value="${pharmacyList.star}"/> (${pharmacyList.reviews } reviews)
             </h3>
             <div
               class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch justify-content-between">
               <a class="btn btn-outline-primary mb-sm-0 mb-3" href="#modal-review" data-bs-toggle="modal"><i
                   class="fi-edit me-1"></i>Add review</a>
-              <div class="d-flex align-items-center ms-sm-4">
+              <!-- <div class="d-flex align-items-center ms-sm-4">
                 <label class="me-2 pe-1 text-nowrap" for="reviews-sorting"><i
                     class="fi-arrows-sort text-muted mt-n1 me-2"></i>Sort by:</label>
                 <select class="form-select" id="reviews-sorting">
@@ -535,7 +364,7 @@
                   <option>High rating</option>
                   <option>Low rating</option>
                 </select>
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- Review-->
@@ -584,53 +413,6 @@
               <button class="btn-dislike" type="button"><i class="fi-dislike"></i><span>(1)</span></button>
             </div>
           </div>
-          <!-- Review-->
-          <!-- <div class="mb-4 pb-4 border-bottom">
-            <div class="d-flex justify-content-between mb-3">
-              <div class="d-flex align-items-center pe-2"><img class="rounded-circle me-1" src="img/avatars/05.jpg"
-                  width="48" alt="Avatar">
-                <div class="ps-2">
-                  <h6 class="fs-base mb-0">Floyd Miles</h6><span class="star-rating"><i
-                      class="star-rating-icon fi-star-filled active"></i><i
-                      class="star-rating-icon fi-star-filled active"></i><i
-                      class="star-rating-icon fi-star-filled active"></i><i
-                      class="star-rating-icon fi-star-filled active"></i><i
-                      class="star-rating-icon fi-star-filled active"></i></span>
-                </div>
-              </div><span class="text-muted fs-sm">Oct 28, 2020</span>
-            </div>
-            <p>Viverra nunc blandit sapien non imperdiet sit. Purus tempus elementum aliquam eu urna. A aenean duis non
-              egestas at libero porttitor integer eget. Sed dictum lobortis laoreet gravida.</p>
-            <div class="d-flex align-items-center">
-              <button class="btn-like" type="button"><i class="fi-like"></i><span>(2)</span></button>
-              <div class="border-end me-1">&nbsp;</div>
-              <button class="btn-dislike" type="button"><i class="fi-dislike"></i><span>(1)</span></button>
-            </div>
-          </div> -->
-          <!-- Review-->
-          <!-- <div class="mb-4 pb-4 border-bottom">
-            <div class="d-flex justify-content-between mb-3">
-              <div class="d-flex align-items-center pe-2"><img class="rounded-circle me-1" src="img/avatars/04.jpg"
-                  width="48" alt="Avatar">
-                <div class="ps-2">
-                  <h6 class="fs-base mb-0">Ralph Edwards</h6><span class="star-rating"><i
-                      class="star-rating-icon fi-star-filled active"></i><i
-                      class="star-rating-icon fi-star-filled active"></i><i
-                      class="star-rating-icon fi-star-filled active"></i><i
-                      class="star-rating-icon fi-star-filled active"></i><i class="star-rating-icon fi-star"></i></span>
-                </div>
-              </div><span class="text-muted fs-sm">Sep 14, 2020</span>
-            </div>
-            <p>Elementum nisl, egestas nam consectetur nisl, at pellentesque cras. Non sed ac vivamus dolor dignissim
-              ut. Nisl sapien blandit pulvinar sagittis donec sociis ipsum arcu est. Tempus, rutrum morbi scelerisque
-              tempor mi. Etiam urna, cras bibendum leo nec faucibus velit. Tempor lectus dignissim at auctor integer
-              neque quam amet.</p>
-            <div class="d-flex align-items-center">
-              <button class="btn-like" type="button"><i class="fi-like"></i><span>(0)</span></button>
-              <div class="border-end me-1">&nbsp;</div>
-              <button class="btn-dislike" type="button"><i class="fi-dislike"></i><span>(0)</span></button>
-            </div>
-          </div> -->
           <!-- Pagination-->
           <nav class="mt-2 mb-4" aria-label="Reviews pagination">
             <ul class="pagination">
@@ -747,7 +529,7 @@
           </div>
         </section>
   </main>
-
+  
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <!-- ===============================================카카오 지도 API=============================================== -->

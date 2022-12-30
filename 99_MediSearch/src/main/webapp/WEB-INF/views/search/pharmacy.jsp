@@ -116,7 +116,7 @@
             <!-- Breadcrumb-->
             <nav class="mb-3 pt-md-2" aria-label="Breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="${path} ">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">약국 찾기</li>
               </ol>
             </nav>

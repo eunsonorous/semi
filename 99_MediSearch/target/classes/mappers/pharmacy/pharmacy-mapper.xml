@@ -11,11 +11,6 @@
 		<result property="star" 		column="star"/>
 		<result property="reviews" 		column="reviews"/>
 		
-		<!-- ================================= 추가부분 ===================================== -->
-		<result property="content"		column="content"/>
-		<result property="memberNo"		column="memberNo"/>
-		<result property="createDate"	column="create_date"/>
-		<result property="reviewNo"		column="reviewNo"/>
 		
 		<!-- ================================= 추가부분 ===================================== -->
 		<result property="dutyInf" 			column="dutyInf"/>
@@ -45,8 +40,7 @@
 		<result property="pharmacyImg" 		column="pharmacyImg"/>
 		<!-- ================================= 추가부분 ===================================== -->
 	</resultMap>
-
-
+	
 	
 	
 	
@@ -97,5 +91,23 @@
 			AND dutyAddr LIKE '%${searchTown}%'
 		</if>
 	</select>
+	
+	
+	
+	<!-- 상세페이지 도전중 -->
+<!-- 	<select id="selectPharmacyInfoList" resultMap="PharmacyListMap" parameterType="map">
+		SELECT  *
+		FROM pharmacy p
+		left outer JOIN review_pharmacy r ON(p.pharmacyNo = r.pharmacyNo);
+		where pharmacyNo = #{pharmacyNo}
+	</select> -->
+	
+	<select id="selectPharmacyListByNo" parameterType="int" resultMap="PharmacyListMap">
+		SELECT  *
+		FROM pharmacy p
+		left outer JOIN review_pharmacy r ON(p.pharmacyNo = r.pharmacyNo)
+		WHERE p.pharmacyNo = #{pharmacyNo}
+	</select>
+	
 	
 </mapper>
